@@ -38,6 +38,16 @@ import LoginForm from '../components/LoginForm.vue'
 // 상대경로 복잡해지면 루트폴더 ~/ 이렇게써도된다
 export default {
   components: { LoginForm },
+  computed:{
+      name(){
+          return this.$store.state.posts.name;
+      }
+  },
+  methods: {
+      onClick() {
+          this.$store.commit('posts/bye')
+      }
+  },
     // head(){
     //     return{
     //         title:'NodeBird',

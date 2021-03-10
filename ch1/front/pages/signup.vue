@@ -59,7 +59,20 @@ export default {
         onSubmitForm() {
             // this.$refs.form.validate();
             // validate는 뷰티파이꺼
-             this.$refs.form.validate()?alert("회원가입시도!"):alert("폼이 유효하지 않습니다")
+             if(this.$refs.form.validate()){
+               this.$store.dispatch('users/signUp',{
+                 nickname:this.nickname,
+                 email:this.email,
+
+               }).then(()=>{
+                 this.$router.push({path:'/'})
+               })
+               .catch(()=>{
+                 alert("회원가입 실패")
+               })
+
+               
+             }
             // console.log(this.valid)
         }
     },
