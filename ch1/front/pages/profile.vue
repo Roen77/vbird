@@ -33,6 +33,7 @@
 import FollowList from '../components/FollowList.vue'
 export default {
   components: { FollowList },
+  middleware:'authenticated',
   data() {
       return {
           valid: false,
@@ -61,7 +62,7 @@ export default {
       removeFollower(id){
             this.$store.dispatch('users/removeFollower',{id})
       }
-  },
+  }
     // layout:'admin',
     // nuxt가 추가한것
     // head(){

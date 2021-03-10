@@ -28,6 +28,7 @@ export default {
     //         title: '회원가입'
     //     }
     // }
+     middleware:'annoymous',
     data() {
         return {
             valid: false,
@@ -55,6 +56,20 @@ export default {
 
         }
     },
+    computed:{
+      me(){
+          return this.$store.state.users.me
+      }
+    },
+    watch:{
+      me(newvalue,oldvalue){
+        if(newvalue){
+          this.$router.push({
+            path:'/'
+          })
+        }
+      }
+    },
     methods: {
         onSubmitForm() {
             // this.$refs.form.validate();
@@ -75,7 +90,7 @@ export default {
              }
             // console.log(this.valid)
         }
-    },
+    }
 
 }
 </script>
