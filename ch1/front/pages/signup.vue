@@ -1,16 +1,68 @@
 <template>
-    <div>
-      sign
+  <div>
+    <v-container>
+      <v-card>
+        <v-container>
+          <v-subheader>회원가입</v-subheader>
+          <!--  v-model="valid"  이건 뷰티파이에만있는것 -->
+          <v-form ref="form" v-model="valid" @submit.prevent="onSubmitForm">
+            <v-text-field v-model="email" label="이메일" type="email" required :rules="emailRules" />
+            <v-text-field v-model="password" label="비밀번호" type="password" required :rules="passwordRules" />
+            <v-text-field v-model="passwordCheck" label="비밀번호 확인" type="password" required :rules="passwordChackRules" />
+            <v-text-field v-model="nickname" label="닉네임" type="nickname" required :rules="nicknameRules" />
+            <v-checkbox v-model="terms" required label="회원가입에 동의합니다." :rules="[v=>!!v ||'약관에 동의해야합니다.']" />
+            <v-btn color="orange" :disabled="!valid" type="submit">
+              가입하기
+            </v-btn>
+          </v-form>
+        </v-container>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
 <script>
 export default {
-    head() {
+    // head() {
+    //     return {
+    //         title: '회원가입'
+    //     }
+    // }
+    data() {
         return {
-            title: '회원가입'
+            valid: false,
+            // 여기서 valid는 rules에 따라 바뀌고 이건 뷰티파이에있는거임
+            //rules가 모두 참인경우에만 valid가 참으로바뀐다
+            email:'',
+            password:'',
+            passwordCheck:'',
+            terms:false,
+            nickname:'',
+            emailRules:[
+                v=> !!v || '이메일은 필수입니다',
+                v=> /.+@.+/.test(v) || '이메일이 유효하지 않습니다'
+            ],
+            nicknameRules:[
+                v=> !!v || '닉네임은 필수입니다',
+            ],
+            passwordRules:[
+                v=> !!v || '비밀번호는 필수입니다.',
+            ],
+            passwordChackRules:[
+                v=> !!v || '비밀번호 확인은 필수입니다.',
+                v=> v === this.password || '비밀번가 일치하지 않습니다..'
+            ],
+
         }
-    }
+    },
+    methods: {
+        onSubmitForm() {
+            // this.$refs.form.validate();
+            // validate는 뷰티파이꺼
+             this.$refs.form.validate()?alert("회원가입시도!"):alert("폼이 유효하지 않습니다")
+            // console.log(this.valid)
+        }
+    },
 
 }
 </script>
