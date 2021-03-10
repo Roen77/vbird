@@ -1,26 +1,30 @@
 [
   {
+    "name": "post",
+    "path": "/post",
+    "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\post\\\\index.vue",
+    "chunkName": "pages/post/index",
+    "_name": "_5abb9f0a"
+  },
+  {
     "name": "profile",
     "path": "/profile",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\profile.vue",
-    "chunkName": "pages/profile"
+    "chunkName": "pages/profile",
+    "_name": "_27876672"
   },
   {
     "name": "signup",
     "path": "/signup",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\signup.vue",
-    "chunkName": "pages/signup"
-  },
-  {
-    "name": "post-id",
-    "path": "/post/:id",
-    "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\post\\\\_id\\\\index.vue",
-    "chunkName": "pages/post/_id/index"
+    "chunkName": "pages/signup",
+    "_name": "_7f5496df"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_a8cb7d4a"
   }
 ]
