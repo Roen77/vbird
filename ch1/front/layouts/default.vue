@@ -9,7 +9,11 @@
         </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
-          <v-text-field label="검색" hide-details prepend-icon="mdi-magnify" />
+          <v-form @submit.prevent="onSearchHashtag">
+            <div :style="{display:'flex',height:'100%',alignItems:'center'}">
+              <v-text-field v-model="hashtag" label="검색" hide-details prepend-icon="mdi-magnify" />
+            </div>
+          </v-form>
           <v-btn text nuxt to="/profile">
             <div>프로필</div>
           </v-btn>
@@ -38,22 +42,21 @@ import LoginForm from '../components/LoginForm.vue'
 // 상대경로 복잡해지면 루트폴더 ~/ 이렇게써도된다
 export default {
   components: { LoginForm },
-  computed:{
-      name(){
-          return this.$store.state.posts.name;
-      }
+  data() {
+    return {
+      hashtag: ''
+    }
   },
-  methods: {
-      onClick() {
-          this.$store.commit('posts/bye')
+    methods: {
+      onSearchHashtag() {
+        console.log(this.hashtag)
+        this.$router.push({
+          path:`/hashtag/${this.hashtag}`
+        });
+        this.hashtag=''
+        }
       }
-  },
-    // head(){
-    //     return{
-    //         title:'NodeBird',
-    //     }
-    // }
-    // 메인페이지 즉 index페이지에 head가 없으면 이폴트값에있는 이 헤드값이들어각ㄴ다 head에 title에 들어감
+
 
 }
 </script>

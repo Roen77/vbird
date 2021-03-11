@@ -1,6 +1,12 @@
 export const state=()=>({
-    mainPosts:[]
+    mainPosts:[],
+    hasMorePost:true,
 })
+
+const totalPosts=101;
+const limit=10;
+// 마지막아이디기준으로하고 limit기준으로는안한다
+//throttle
 
 
 export const  mutations={
@@ -16,6 +22,23 @@ export const  mutations={
         console.log('넘겨준자료',payload)
         const index= state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts[index].Comments.unshift(payload)
+    },
+    loadPosts(state){
+        const diff=totalPosts -state.mainPosts.length;//아직 안불러온 게시글 수
+        const fakePosts=Array(diff>limit?limit:diff).fill().map(v=>({
+            id:Math.random().toString(),
+            User:{
+                id:1,
+                nickname:'roen'
+            },
+            content:`hello infinite scroll ${Math.random()}`,
+            Comments:[],
+            Images:[],
+        }));
+        state.mainPosts=state.mainPosts.concat(fakePosts);
+        // console.log("뮤테이션호출", state.mainPosts)
+
+        state.hasMorePost=fakePosts.length === limit
     }
 }
 
@@ -30,5 +53,10 @@ export const actions={
     },
     addComment({commit},payload){
         commit('addComment',payload)
+    },
+    loadPosts({commit,state}){
+        if(state.hasMorePost){
+            commit('loadPosts')
+        }
     }
 }

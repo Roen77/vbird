@@ -2,10 +2,15 @@
   <div style="margin-bottom:20px">
     <v-card>
       <v-img />
+      <v-card-title>
+        <h3>
+          <nuxt-link :to="`/user/${post.id}`">
+            {{ post.User.nickname }}
+          </nuxt-link>
+        </h3>
+      </v-card-title>
       <v-card-text>
         <div>
-          <h3>{{ post.User.nickname }}</h3>
-          <!-- <div>{{ post.content }}</div> -->
           <nuxt-link :to="`/post/${post.id}`">
             {{ post.content }}
           </nuxt-link>
@@ -91,6 +96,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

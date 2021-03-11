@@ -21,6 +21,27 @@
     "_name": "_7f5496df"
   },
   {
+    "name": "hashtag-id",
+    "path": "/hashtag/:id",
+    "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\hashtag\\\\_id\\\\index.vue",
+    "chunkName": "pages/hashtag/_id/index",
+    "_name": "_1d42516d"
+  },
+  {
+    "name": "post-id",
+    "path": "/post/:id",
+    "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\post\\\\_id.vue",
+    "chunkName": "pages/post/_id",
+    "_name": "_1c6815a3"
+  },
+  {
+    "name": "user-id",
+    "path": "/user/:id",
+    "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\user\\\\_id\\\\index.vue",
+    "chunkName": "pages/user/_id/index",
+    "_name": "_cd0662ac"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\index.vue",
