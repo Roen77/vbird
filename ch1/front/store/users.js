@@ -65,10 +65,21 @@ export const  mutations={
 }
 // 비동기처리는 actions에서한다
 export const actions={
-    signUp({commit},payload){
-        //서버에 회원가입요청을 보내는 부분
-       commit('setMe',payload)
-    },
+    signUp({ commit, state }, payload) {
+        this.$axios.post('http://localhost:3080/user', {
+          email: payload.email,
+          nickname: payload.nickname,
+          password: payload.password,
+        }, {
+          withCredentials: true,
+        })
+          .then((res) => {
+            commit('setMe', res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      },
     login({commit},{email,nickname}){
     commit('setMe',{email,nickname})
     },
