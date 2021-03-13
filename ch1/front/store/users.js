@@ -75,7 +75,7 @@ export const actions={
         })
           .then((res) => {
               console.log(res)
-            commit('setMe', res);
+            commit('setMe', res.data);
           })
           .catch((err) => {
             console.error(err);
@@ -85,15 +85,25 @@ export const actions={
         this.$axios.post('http://localhost:3080/user/login', {
             email: payload.email,
             password: payload.password,
-          }).then((data)=>{
-            commit('setMe',data)
+          }, {
+            withCredentials: true,
+          }).then((res)=>{
+            commit('setMe',res.data)
           })
           .catch((err)=>{
               console.error(err)
           })
     },
     logout({commit},payload){
-        commit('setMe',null);
+        this.$axios.post('http://localhost:3080/user/logout',{},{
+            withCredentials: true,
+          })
+        .then((data)=>{
+            commit('setMe',null)
+          })
+          .catch((err)=>{
+              console.error(err)
+          })
     },
     changeNickname({commit},payload){
         commit('setMe',payload)
