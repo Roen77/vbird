@@ -64,12 +64,29 @@ app.post('/user',async (req,res,next)=>{
             message: '이미 회원가입되어있습니다.',
           });
         }
-      const newUser=  await db.User.create({
+      await db.User.create({
           email: req.body.email,
           password: hash,
           nickname: req.body.nickname,
         }); // HTTP STATUS CODE
-        return res.status(201).json(newUser)
+        // return res.status(201).json(newUser)
+        passport.authenticate('local',(err,user,info)=>{
+            if(err){
+                console.error(err);
+                return next(err);
+            }
+            if(info){
+                return res.status(401).send(info.reason)
+            }
+            return req.login(user,async (err)=>{ //세션에다 사용자 정보 저장(어떻게??시리얼라이즈유저)
+                if(err){
+                    console.error(err);
+                    return next(err)
+                }
+                return res.json(user);
+            })
+        })(req,res,next);
+        // 회원가입후 로그인하려고
       }
       catch(err){
         console.log(err);
@@ -111,7 +128,7 @@ app.post('/user',async (req,res,next)=>{
     // }
 })
 
-app.use('/user/login',(req,res)=>{
+app.use('/user/login',(req,res,next)=>{
     passport.authenticate('local',(err,user,info)=>{
         if(err){
             console.error(err);
@@ -130,6 +147,6 @@ app.use('/user/login',(req,res)=>{
     })(req,res,next);
 });
 
-app.listen(3085,()=>{
+app.listen(3080,()=>{
     console.log(`백엔드 서버 ${3085}번 포트에서 작동중`)
 })

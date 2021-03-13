@@ -8,7 +8,7 @@ module.exports=()=>{
         passwordField:'password', //req.body.password
     }, async (email,password,done)=>{
         try {
-            const exUser=await db.User.findeOne({where:{email}});
+            const exUser = await db.User.findOne({ where: { email } });
             if(!exUser){
                 return done(null,false,{reason:'존재하지 않는 사용자입니다'})
                     //done(에러,성공,실패)
