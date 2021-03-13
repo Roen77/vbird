@@ -28,3 +28,4 @@ module.exports = (sequelize, DataTypes) => {
   
     return User;
   };
+//   시퀄라이즈에서 creatat updateat이자동으로 생긴다 아이디도추가됨

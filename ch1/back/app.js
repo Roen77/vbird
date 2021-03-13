@@ -64,12 +64,12 @@ app.post('/user',async (req,res,next)=>{
             message: '이미 회원가입되어있습니다.',
           });
         }
-        await db.User.create({
+      const newUser=  await db.User.create({
           email: req.body.email,
           password: hash,
           nickname: req.body.nickname,
         }); // HTTP STATUS CODE
-        return res.status(200).send("ddd")
+        return res.status(201).json(newUser)
       }
       catch(err){
         console.log(err);
@@ -120,7 +120,7 @@ app.use('/user/login',(req,res)=>{
         if(info){
             return res.status(401).send(info.reason)
         }
-        return req.login(user,async (err)=>{ //세션에다 사용자 정보 저장
+        return req.login(user,async (err)=>{ //세션에다 사용자 정보 저장(어떻게??시리얼라이즈유저)
             if(err){
                 console.error(err);
                 return next(err)
@@ -130,6 +130,6 @@ app.use('/user/login',(req,res)=>{
     })(req,res,next);
 });
 
-app.listen(3080,()=>{
+app.listen(3085,()=>{
     console.log(`백엔드 서버 ${3085}번 포트에서 작동중`)
 })
