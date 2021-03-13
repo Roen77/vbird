@@ -74,12 +74,11 @@ export default {
         onSubmitForm() {
             // this.$refs.form.validate();
             // validate는 뷰티파이꺼
-             if(this.$refs.form.validate()){
-               this.$store.dispatch('users/signUp',{
-                 email:this.email,
-                 nickname:this.nickname,
-                 password:this.password
-
+             if (this.$refs.form.validate()) {
+          this.$store.dispatch('users/signUp', {
+            nickname: this.nickname,
+            email: this.email,
+            password: this.password,
                }).then(()=>{
                  this.$router.push({path:'/'})
                })
