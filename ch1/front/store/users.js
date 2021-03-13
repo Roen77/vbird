@@ -66,22 +66,30 @@ export const  mutations={
 // 비동기처리는 actions에서한다
 export const actions={
     signUp({ commit, state }, payload) {
-        this.$axios.post('http://localhost:3080/user', {
+        console.log("로그데이터",payload)
+        this.$axios.post('http://localhost:3085/user', {
           email: payload.email,
           nickname: payload.nickname,
           password: payload.password,
-        }, {
-          withCredentials: true,
         })
           .then((res) => {
-            commit('setMe', res.data);
+              console.log(res)
+            commit('setMe', payload);
           })
           .catch((err) => {
             console.error(err);
           });
       },
-    login({commit},{email,nickname}){
-    commit('setMe',{email,nickname})
+    login({commit},payload){
+        this.$axios.post('http://localhost:3085/user/login', {
+            email: payload.email,
+            password: payload.password,
+          }).then((data)=>{
+            commit('setMe',payload)
+          })
+          .catch((err)=>{
+              console.error(err)
+          })
     },
     logout({commit},payload){
         commit('setMe',null);

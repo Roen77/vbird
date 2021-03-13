@@ -3,49 +3,42 @@
     "name": "post",
     "path": "/post",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\post\\\\index.vue",
-    "chunkName": "pages/post/index",
-    "_name": "_5abb9f0a"
+    "chunkName": "pages/post/index"
   },
   {
     "name": "profile",
     "path": "/profile",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\profile.vue",
-    "chunkName": "pages/profile",
-    "_name": "_27876672"
+    "chunkName": "pages/profile"
   },
   {
     "name": "signup",
     "path": "/signup",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\signup.vue",
-    "chunkName": "pages/signup",
-    "_name": "_7f5496df"
+    "chunkName": "pages/signup"
   },
   {
     "name": "hashtag-id",
     "path": "/hashtag/:id",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\hashtag\\\\_id\\\\index.vue",
-    "chunkName": "pages/hashtag/_id/index",
-    "_name": "_1d42516d"
+    "chunkName": "pages/hashtag/_id/index"
   },
   {
     "name": "post-id",
     "path": "/post/:id",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\post\\\\_id.vue",
-    "chunkName": "pages/post/_id",
-    "_name": "_1c6815a3"
+    "chunkName": "pages/post/_id"
   },
   {
     "name": "user-id",
     "path": "/user/:id",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\user\\\\_id\\\\index.vue",
-    "chunkName": "pages/user/_id/index",
-    "_name": "_cd0662ac"
+    "chunkName": "pages/user/_id/index"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\roen\\\\Documents\\\\vbird\\\\ch1\\\\front\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_a8cb7d4a"
+    "chunkName": "pages/index"
   }
 ]

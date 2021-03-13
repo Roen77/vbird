@@ -76,8 +76,9 @@ export default {
             // validate는 뷰티파이꺼
              if(this.$refs.form.validate()){
                this.$store.dispatch('users/signUp',{
-                 nickname:this.nickname,
                  email:this.email,
+                 nickname:this.nickname,
+                 password:this.password
 
                }).then(()=>{
                  this.$router.push({path:'/'})

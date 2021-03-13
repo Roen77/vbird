@@ -5,7 +5,8 @@ module.exports=(sequelize,DataTypes) =>{
     const User=sequelize.define('User',{
         email:{
             type:DataTypes.STRING(30),
-            allowNull:false //필수
+            allowNull:false, //필수
+            unique:true, //중복금지
         },
         nickname:{
             type:DataTypes.STRING(20),
