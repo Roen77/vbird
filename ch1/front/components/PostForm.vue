@@ -10,8 +10,21 @@
         <v-btn color="green" type="submit" absolute right>
           짹짹
         </v-btn>
+        <input ref="imageInput" type="file" multiple hidden @change="onChangeImages">
       </v-form>
-      <v-btn>이미지 업로드</v-btn>
+      <v-btn type="button" @click="onClickImageUpload">
+        이미지 업로드
+      </v-btn>
+      <div>
+        <div v-for="(p,i) in imagePaths" :key="p" style="display:inline-block">
+          <img :src="`http://localhost:4000/${p}`" :alt="p" style="width:200px">
+          <div>
+            <button type="button" @click="onReomveImage(i)">
+              제거
+            </button>
+          </div>
+        </div>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -29,7 +42,8 @@ export default {
         }
     },
     computed:{
-         ...mapState('users',['me'])
+         ...mapState('users',['me']),
+         ...mapState('posts',['imagePaths'])
         // ...mapState(['users/me'])
         // ...mapState('users',['me']) 둘다 표현다 가능하다
     },
@@ -43,11 +57,6 @@ export default {
             if(this.$refs.form.validate()){
                 this.$store.dispatch('posts/add',{
                     content:this.content,
-                    User:{nickname:this.me.nickname},
-                    Comments:[],
-                    Images:[],
-                    id:Date.now(),
-                    createdAt:Date.now()
                 })
                 .then(()=>{
                     this.content=""
@@ -59,6 +68,23 @@ export default {
 
                 })
             }
+        },
+        onClickImageUpload(){
+          this.$refs.imageInput.click();
+        },
+        onChangeImages(e){
+          //여기서 이미지 요청할것
+          console.log("파일확인",e.target.files)
+          //유사배열이라 배열로만들어서 넣어준것
+          const imageFormData=new FormData();
+         [].forEach.call(e.target.files, (f) => {
+          imageFormData.append('image', f);   // { image: [file1, file2] }
+        });
+          console.log('이미지폼데이터확인',imageFormData)
+          this.$store.dispatch('posts/uploadImages',imageFormData)
+        },
+        onReomveImage(index){
+          this.$store.commit('posts/removeImagePath',index)
         }
     },
 
