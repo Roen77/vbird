@@ -65,6 +65,16 @@ export const  mutations={
 }
 // 비동기처리는 actions에서한다
 export const actions={
+    loadUser({commit}){
+        this.$axios.get('http://localhost:4000/user',{
+            
+        },{
+            withCredentials: true,
+          })
+          .then((res)=>{
+            commit("setMe",res.data)
+          })
+    },
     signUp({ commit, state }, payload) {
         this.$axios.post('http://localhost:4000/user', {
           email: payload.email,

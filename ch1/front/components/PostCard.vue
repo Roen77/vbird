@@ -82,10 +82,15 @@ export default {
     methods: {
         onRemovePost() {
             this.$store.dispatch('posts/remove',{
-                id:this.post.id
+                postId:this.post.id,
             })
         },
         onToggleComment(){
+          if(!this.commentOpened){
+            this.$store.dispatch('posts/loadCommnets',{
+              postId:this.post.id,
+            })
+          }
             this.commentOpened=!this.commentOpened
         },
         onEditPost(){

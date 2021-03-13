@@ -6,6 +6,12 @@ const {isNotLoggedIn,isLoggedIn} =require('./middlewares')
 
 const router = express.Router();
 
+router.get('/',isLoggedIn,async(req,res,next)=>{
+    const user = req.user;
+    //이러면 패스워드가들어잇다..r그래서 passport에서 비밀번호안받아오게해줌
+
+})
+
 
 router.post('/',isNotLoggedIn,async (req,res,next)=>{
     try {
