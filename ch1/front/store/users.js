@@ -124,7 +124,17 @@ export const actions={
           })
     },
     changeNickname({commit},payload){
-        commit('setMe',payload)
+        this.$axios.patch(`/user/nickname`,{
+            nickname:payload.nickname
+        },{
+            withCredentials:true
+        })
+        .then(()=>{
+            commit("changeNickname",payload)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
     },
     addFollwing({commit},payload){
         state.followingList.push(payload)
