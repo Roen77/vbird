@@ -41,7 +41,9 @@ export const  mutations={
         state.followerList= state.followerList.filter(user=>user.id !== payload.id);
     },
     removeFollowing(state,payload){
-        state.followingList= state.followingList.filter(user=>user.id !== payload.id);
+        const index=state.me.Followings.findIndex(v=>v.id === payload.userId);
+        state.me.Followings.splice(index,1);
+        // state.followingList= state.followingList.filter(user=>user.id !== payload.id);
     },
     loadFollowings(state){
         const diff=totalFollowings -state.followingList.length;
@@ -61,6 +63,10 @@ export const  mutations={
         state.followerList=state.followerList.concat(fakeUsers);
         state.hasMoreFollower=fakeUsers.length === limit;
     },
+    following(state,payload){
+        state.me.Followings.push({id:payload.userId})
+    },
+
 
 }
 // 비동기처리는 actions에서한다
@@ -92,19 +98,20 @@ export const actions={
             console.error(err);
           });
       },
-    login({commit},payload){
+      login({ commit }, payload) {
         this.$axios.post('/user/login', {
-            email: payload.email,
-            password: payload.password,
-          }, {
-            withCredentials: true,
-          }).then((res)=>{
-            commit('setMe',res.data)
+          email: payload.email,
+          password: payload.password,
+        }, {
+          withCredentials: true,
+        })
+          .then((res) => {
+            commit('setMe', res.data);
           })
-          .catch((err)=>{
-              console.error(err)
-          })
-    },
+          .catch((err) => {
+            console.error(err);
+          });
+      },
     logout({commit},payload){
         this.$axios.post('/user/logout',{},{
             withCredentials: true,
@@ -147,5 +154,31 @@ export const actions={
         }
 
     },
+    follow({ commit }, payload) {
+        this.$axios.post(`/user/${payload.userId}/follow`, {}, {
+          withCredentials: true,
+        })
+          .then((res) => {
+            commit('following', {
+              userId: payload.userId,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      },
+      unfollow({ commit }, payload) {
+        return this.$axios.delete(`/user/${payload.userId}/follow`,  {
+          withCredentials: true,
+        })
+          .then((res) => {
+            commit('removeFollowing', {
+              userId: payload.userId,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      },
 }
 // context안에 commit,dispatch,state,rootState,getters,rootGetters

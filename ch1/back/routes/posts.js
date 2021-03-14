@@ -1,11 +1,10 @@
 const express = require('express');
 
 const db = require('../models');
-const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
-router.get('/',async (req, res, next) => { // GET /posts?offset=10&limit=10
+router.get('/', async (req, res, next) => { // GET /posts?offset=10&limit=10
   try {
     let where = {};
     if (parseInt(req.query.lastId, 10)) {

@@ -5,16 +5,19 @@
       <v-icon id="close-btn" @click="closeModal">
         mdi-close
       </v-icon>
-      <div id="carousel-wrapper">
-        <v-carousel>
-          <v-carousel-item v-for="img in images" :key="img.src">
-            <v-sheet>
-              <v-img max-height="500" contain :src="`http://localhost:4000/${img.src}`"></v-img>
-            </v-sheet>
-          </v-carousel-item>
-        </v-carousel>
-      </div>
     </header>
+    <div id="carousel-wrapper">
+      <v-carousel>
+        <v-carousel-item
+          v-for="img in images"
+          :key="img.src"
+        >
+          <v-sheet>
+            <v-img max-height="500" contain :src="`http://localhost:4000/${img.src}`" />
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+    </div>
   </div>
 </template>
 
@@ -56,6 +59,7 @@ export default {
     color: #333;
     line-height: 44px;
   }
+
   #close-btn {
     position: absolute;
     right: 0;
@@ -66,7 +70,7 @@ export default {
   }
   #carousel-wrapper {
     height: calc(100% - 44px);
-    background: #090909;
+    background: #090909e3;
   }
   #carousel-wrapper > div {
     height: auto !important;
