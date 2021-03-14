@@ -51,7 +51,7 @@ export default {
       onSearchHashtag() {
         console.log(this.hashtag)
         this.$router.push({
-          path:`/hashtag/${this.hashtag}`
+          path:`/hashtag/${encodeURIComponent(this.hashtag)}`
         });
         this.hashtag=''
         }

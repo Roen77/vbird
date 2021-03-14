@@ -21,7 +21,6 @@ export const  mutations={
     removeMainPost(state, payload) {
         const index = state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts.splice(index, 1);
-        console.log(state.mainPosts)
       },
     loadComments(state,payload){
         const index= state.mainPosts.findIndex(v => v.id === payload.postId);
@@ -78,41 +77,43 @@ export const actions={
        
         //만약에 위의 addMainPost가 아닌 아른 모듈인 index.js에 있는  addMainPost를 가져오고 싶다면  commit('addMainPost',payload,{root:true}) 라고해주면된다 두번째잇자는 없으면 null로
     },
-    remove({commit},payload){
-        this.$axios.delete(`/post/${payload.postId}`,{
-            withCredentials:true,
+    remove({ commit }, payload) {
+        this.$axios.delete(`/post/${payload.postId}`, {
+          withCredentials: true,
         })
-        .then(()=>{
-            commit('removeMainPost',payload.postId)
+          .then(() => {
+            commit('removeMainPost', payload);
+          })
+          .catch(() => {
+    
+          });
+      },
+    addComment({ commit }, payload) {
+        this.$axios.post(`/post/${payload.postId}/comment`, {
+          content: payload.content,
+        }, {
+          withCredentials: true,
         })
-        .catch((err)=>{
-            console.log(err)
-        })
-        
-    },
-    addComment({commit},payload){
-        this.$axios.post(`/post/${payload.postId}/comment`,{
-            content:payload.content,
-        },{
-            withCredentials:true,
-        })
-        .then((res)=>{
-            commit('addComment',res.data)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-     
-    },
-    loadCommnets({commit},payload){
+          .then((res) => {
+            console.log('addComment');
+            commit('addComment', res.data);
+          })
+          .catch(() => {
+    
+          });
+      },
+      loadComments({ commit }, payload) {
         this.$axios.get(`/post/${payload.postId}/comments`)
-        .then((res)=>{
-            commit('loadComments',res.data)
-        })
-        .catch(()=>{
-            console.error(error)
-        })
-    },
+          .then((res) => {
+            commit('loadComments', {
+              postId: payload.postId,
+              data: res.data,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      },
     loadPosts: throttle(async function({ commit, state }, payload) {
         console.log('loadPosts');
         try {
@@ -149,6 +150,28 @@ export const actions={
           if (state.hasMorePost) {
             const lastPost = state.mainPosts[state.mainPosts.length - 1];
             const res = await this.$axios.get(`/user/${payload.userId}/posts?lastId=${lastPost && lastPost.id}&limit=10`);
+            commit('loadPosts', {
+              data: res.data,
+            });
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }, 2000),
+      loadHashtagPosts: throttle(async function({ commit, state }, payload) {
+        try {
+          if (payload && payload.reset) {
+            const res = await this.$axios.get(`/hashtag/${payload.hashtag}?limit=10`);
+            commit('loadPosts', {
+              data: res.data,
+              reset: true,
+            });
+            return;
+          }
+          if (state.hasMorePost) {
+            const lastPost = state.mainPosts[state.mainPosts.length - 1];
+            const res = await this.$axios.get(`/hashtag/${payload.hashtag}?lastId=${lastPost && lastPost.id}&limit=10`);
             commit('loadPosts', {
               data: res.data,
             });

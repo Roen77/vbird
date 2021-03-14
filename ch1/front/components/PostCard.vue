@@ -2,7 +2,7 @@
   <div style="margin-bottom:20px">
     <v-card>
       <div v-if="post.RetweetId && post.Retweet">
-        <v-subheader>{{ post.User.nickname }}님이 리트윗하셨습니다.</v-subheader>
+        <v-subheader>{{ post.User.nickname || '' }}님이 리트윗하셨습니다.</v-subheader>
         <v-card style="margin: 0 20px">
           <post-content :post="post.Retweet" />
         </v-card>
@@ -37,20 +37,18 @@
       </v-card-actions>
     </v-card>
     <template v-if="commentOpened">
-      <comment-form :post-id="post.id"></comment-form>
-      <!-- 댓글입력창 -->
+      <comment-form :post-id="post.id" />
       <v-list>
         <v-list-item v-for="c in post.Comments" :key="c.id">
           <v-list-item-avatar color="teal">
-            <span>{{ c.User.nickname[0] }}</span>
+            <span>{{ c.User.nickname[0] || '' }}</span>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{ c.User.nickname }}</v-list-item-title>
-            <v-list-item-subtitle>{{ c.content }}</v-list-item-subtitle>
+            <h3>{{ c.User.nickname || '' }}</h3>
+            <div>{{ c.content }}</div>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <!-- 댓글리스트 -->
     </template>
   </div>
 </template>
@@ -90,14 +88,16 @@ export default {
                 postId:this.post.id,
             })
         },
-        onToggleComment(){
-          if(!this.commentOpened){
-            this.$store.dispatch('posts/loadCommnets',{
-              postId:this.post.id,
-            })
-          }
-            this.commentOpened=!this.commentOpened
-        },
+  onToggleComment() {
+    alert('댓글 기능은 잠시 사용이 불가합니다.')
+        // if (!this.commentOpened) {
+
+        //   this.$store.dispatch('posts/loadComments', {
+        //     postId: this.post.id,
+        //   });
+        // }
+        // this.commentOpened = !this.commentOpened;
+      },
         onEditPost(){
             console.log('edit')
         },
