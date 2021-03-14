@@ -33,8 +33,8 @@ export default {
       }
   },
   computed:{
-      me(){
-          return this.$store.state.users.me;
+      me() {
+        return this.$store.state.users.me;
       },
       canFollow() {
         return this.me && this.post.User.id !== this.me.id && !this.me.Followings.find(v => v.id === this.post.User.id);
