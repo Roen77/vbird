@@ -136,6 +136,28 @@ export const actions={
           console.error(err);
         }
       }, 2000),
+      loadUserPosts: throttle(async function({ commit, state }, payload) {
+        try {
+          if (payload && payload.reset) {
+            const res = await this.$axios.get(`/user/${payload.userId}/posts?limit=10`);
+            commit('loadPosts', {
+              data: res.data,
+              reset: true,
+            });
+            return;
+          }
+          if (state.hasMorePost) {
+            const lastPost = state.mainPosts[state.mainPosts.length - 1];
+            const res = await this.$axios.get(`/user/${payload.userId}/posts?lastId=${lastPost && lastPost.id}&limit=10`);
+            commit('loadPosts', {
+              data: res.data,
+            });
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }, 2000),
     uploadImages({commit},payload){
         console.log("이미지확인",payload)
         this.$axios.post('/post/images',payload,{
@@ -190,4 +212,5 @@ export const actions={
             console.error(err);
           });
       },
+
 }

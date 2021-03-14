@@ -1,5 +1,6 @@
 export const state=()=>({
     me:null,
+    other:null, //남의정보
     // followerList:[{
     //     id:1,
     //     nickname:'roen'
@@ -33,6 +34,9 @@ const limit=3;
 export const  mutations={
     setMe(state,payload){
         state.me=payload
+    },
+    setOther(state,payload){
+      state.other=payload;
     },
     changeNickname(state,payload){
         state.me.nickname=payload.nickname;
@@ -82,6 +86,16 @@ export const actions={
     } catch (err) {
       console.error(err);
     }
+  },
+ async loadOther({commit},payload){
+  try {
+    const res =await this.$axios.get(`/user/${payload.userId}`,{
+      withCredentials:true,
+    });
+    commit('setOther',res.data)
+  } catch (error) {
+    console.log(error)
+  }
   },
     signUp({ commit, state }, payload) {
         this.$axios.post('/user', {
