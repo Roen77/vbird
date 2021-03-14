@@ -15,11 +15,11 @@ export const  mutations={
         state.mainPosts.unshift(payload)
         state.imagePaths=[];
     },
-    removeMainPost(state,payload){
+    removeMainPost(state, payload) {
         const index = state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts.splice(index, 1);
-        // 사실필터쓰면 한줄로삭제가능
-    },
+        console.log(state.mainPosts)
+      },
     loadComments(state,payload){
         const index= state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts[index].Comments=payload;

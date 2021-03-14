@@ -37,13 +37,17 @@ export const  mutations={
     changeNickname(state,payload){
         state.me.nickname=payload.nickname;
     },
-    removeFollower(state,payload){
-        state.followerList= state.followerList.filter(user=>user.id !== payload.id);
+    removeFollower(state, payload) {
+      let index = state.me.Followers.findIndex(v => v.id === payload.userId);
+      state.me.Followers.splice(index, 1);
+      index = state.followerList.findIndex(v => v.id === payload.id);
+      state.followerList.splice(index, 1);
     },
-    removeFollowing(state,payload){
-        const index=state.me.Followings.findIndex(v=>v.id === payload.userId);
-        state.me.Followings.splice(index,1);
-        // state.followingList= state.followingList.filter(user=>user.id !== payload.id);
+    removeFollowing(state, payload) {
+      let index = state.me.Followings.findIndex(v => v.id === payload.userId);
+      state.me.Followings.splice(index, 1);
+      index = state.followerList.findIndex(v => v.id === payload.userId);
+      state.followingList.splice(index, 1);
     },
     loadFollowings(state, payload) {
       if (payload.offset === 0) {
@@ -140,17 +144,14 @@ export const actions={
     addFollower({commit},payload){
         state.followerList.push(payload)
     },
-    removeFollower({commit},payload){
-        commit('removeFollower',payload)
-    },
-    removeFollowing({commit},payload){
-        commit('removeFollowing',payload)
-        // state.followingList.push(payload)
-    //    state.followingList= state.followingList.fillter(user=>user.id !== payload.id);
+    // removeFollowing({commit},payload){
+    //     commit('removeFollowing',payload)
+    //     // state.followingList.push(payload)
+    // //    state.followingList= state.followingList.fillter(user=>user.id !== payload.id);
 
-    //    const index=state.followingList.findIndex(v=>v.id === payload.id)
-    //    state.followerList.splice(index,1)
-    },
+    // //    const index=state.followingList.findIndex(v=>v.id === payload.id)
+    // //    state.followerList.splice(index,1)
+    // },
     loadFollowers({ commit, state }, payload) {
       if (!(payload && payload.offset === 0) && !state.hasMoreFollower) {
         return;
@@ -219,5 +220,19 @@ export const actions={
             console.error(err);
           });
       },
+      removeFollower({commit},payload){
+        return this.$axios.delete(`/user/${payload.userId}/follower`,{
+          withCredentials:true
+        })
+        .then(()=>{
+          commit('removeFollower',{
+            userId:payload.userId
+          })
+        })
+        .catch((err)=>{
+          console.error(err)
+        })
+
+    },
 }
 // context안에 commit,dispatch,state,rootState,getters,rootGetters
