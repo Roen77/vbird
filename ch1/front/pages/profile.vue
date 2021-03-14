@@ -1,32 +1,36 @@
 <template>
   <div>
     <v-container>
-      <v-card style="margin-bottom:20px">
+      <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>내 프로필</v-subheader>
-          <v-form v-model="valid" @submit.prevent="onChaneNickname">
-            <v-text-field v-model="nickname" label="닉네임" required :rules="nicknameRules" />
-            <v-btn color="blue" type="submit">
+          <v-form v-model="valid" @submit.prevent="onChangeNickname">
+            <v-text-field
+              v-model="nickname"
+              label="닉네임"
+              :rules="nicknameRules"
+              required
+            />
+            <v-btn dark color="blue" type="submit">
               수정
             </v-btn>
           </v-form>
         </v-container>
       </v-card>
-      <!-- card -->
-      <v-card style="margin-bottom:20px">
+      <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>팔로잉</v-subheader>
-          <follow-list :users="followingLlist" :remove="removeFollowing" />
-          <v-btn v-if=" hasMoreFollowing" color="blue" style="width:100%" @click="loadMoreFollowings">
+          <follow-list :users="followingList" :remove="removeFollowing" />
+          <v-btn v-if="hasMoreFollowing" dark color="blue" style="width: 100%" @click="loadMoreFollowings">
             더보기
           </v-btn>
         </v-container>
       </v-card>
-      <v-card style="margin=bottom:20px">
+      <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>팔로워</v-subheader>
           <follow-list :users="followerList" :remove="removeFollower" />
-          <v-btn v-if=" hasMoreFollower" color="blue" style="width:100%" @click="loadMoreFollowers">
+          <v-btn v-if="hasMoreFollower" dark color="blue" style="width: 100%" @click="loadMoreFollowers">
             더보기
           </v-btn>
         </v-container>
@@ -36,66 +40,67 @@
 </template>
 
 <script>
-import FollowList from '../components/FollowList.vue'
-export default {
-  components: { FollowList },
-  middleware:'authenticated',
-  data() {
+  import FollowList from '~/components/FollowList';
+
+  export default {
+    components: {
+      FollowList,
+    },
+    middleware: 'authenticated',
+    data() {
       return {
-          valid: false,
-          nickname:'',
-          nicknameRules:[v=>!!v || "닉네임을 입력하세요"]
-      }
-  },
+        valid: false,
+        nickname: '',
+        nicknameRules: [
+          v => !!v || '닉네임을 입력하세요.',
+        ],
+      };
+    },
     fetch({ store }) {
       return Promise.all([
-        store.dispatch('users/loadFollowings'),
-        store.dispatch('users/loadFollowers'),
+        store.dispatch('users/loadFollowings', { offset: 0 }),
+        store.dispatch('users/loadFollowers', { offset: 0 }),
       ]);
     },
-      computed:{
-        followingLlist(){
-            return this.$store.state.users.followingList
-        },
-        followerList(){
-            return this.$store.state.users.followerList
-        },
-        hasMoreFollowing(){
-          return this.$store.state.users.hasMoreFollowing
-        },
-        hasMoreFollower(){
-          return this.$store.state.users.hasMoreFollower
-        },
+    head() {
+      return {
+        title: '프로필',
+      };
     },
-  methods: {
-      onChaneNickname() {
-          this.$store.dispatch("users/changeNickname",{
-              nickname:this.nickname,
-
-          })
+    computed: {
+      followerList() {
+        return this.$store.state.users.followerList;
       },
-      removeFollowing(id){
-          this.$store.dispatch('users/removeFollowing',{id})
+      followingList() {
+        return this.$store.state.users.followingList;
       },
-      removeFollower(id){
-            this.$store.dispatch('users/removeFollower',{id})
+      hasMoreFollowing() {
+        return this.$store.state.users.hasMoreFollowing;
       },
-      loadMoreFollowings(){
-        this.$store.dispatch('users/loadFollowings')
+      hasMoreFollower() {
+        return this.$store.state.users.hasMoreFollower;
       },
-      loadMoreFollowers(){
-        this.$store.dispatch('users/loadFollowers')
-      }
-  }
-    // layout:'admin',
-    // nuxt가 추가한것
-    // head(){
-    //     return{
-    //         title:'프로필'
-    //     }
-    // }
-
-}
+    },
+    methods: {
+      onChangeNickname() {
+        this.$store.dispatch('users/changeNickname', {
+          nickname: this.nickname,
+        });
+      },
+      removeFollowing(userId) {
+        this.$store.dispatch('users/unfollow', { userId });
+      },
+      removeFollower(userId) {
+        this.$store.dispatch('users/removeFollower', { userId });
+      },
+      loadMoreFollowers() {
+        this.$store.dispatch('users/loadFollowers');
+      },
+      loadMoreFollowings() {
+        this.$store.dispatch('users/loadFollowings');
+      },
+    },
+  };
 </script>
 
 <style>
