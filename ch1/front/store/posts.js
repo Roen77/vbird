@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import throttle from 'lodash.throttle';
+
 export const state=()=>({
     mainPosts:[],
     hasMorePost:true,
@@ -29,10 +32,14 @@ export const  mutations={
         const index= state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts[index].Comments.unshift(payload)
     },
-    loadPosts(state,payload){
-        state.mainPosts=state.mainPosts.concat(payload);
-        state.hasMorePost=payload.length === limit;
-    },
+    loadPosts(state, payload) {
+        if (payload.reset) {
+          state.mainPosts = payload.data;
+        } else {
+          state.mainPosts = state.mainPosts.concat(payload.data);
+        }
+        state.hasMorePost = payload.data.length === 10;
+      },
     concatImagesPaths(state,payload){
         state.imagePaths=state.imagePaths.concat(payload)
     },
@@ -106,19 +113,29 @@ export const actions={
             console.error(error)
         })
     },
-    async loadPosts({commit,state}){
+    loadPosts: throttle(async function({ commit, state }, payload) {
+        console.log('loadPosts');
         try {
-            if(state.hasMorePost){
-                console.log("loadlosts tlfgod~~~~~")
-               const res = await this.$axios.get(`/posts?offset=${state.mainPosts.length}&limit=10`);
-               console.log('액션실행',res.data)
-               commit('loadPosts',res.data)
-               return
+          if (payload && payload.reset) {
+            const res = await this.$axios.get(`/posts?limit=10`);
+            commit('loadPosts', {
+              data: res.data,
+              reset: true,
+            });
+            return;
           }
-        } catch (error) {
-            console.error(error)
+          if (state.hasMorePost) {
+            const lastPost = state.mainPosts[state.mainPosts.length - 1];
+            const res = await this.$axios.get(`/posts?lastId=${lastPost && lastPost.id}&limit=10`);
+            commit('loadPosts', {
+              data: res.data,
+            });
+            return;
+          }
+        } catch (err) {
+          console.error(err);
         }
-    },
+      }, 2000),
     uploadImages({commit},payload){
         console.log("이미지확인",payload)
         this.$axios.post('/post/images',payload,{

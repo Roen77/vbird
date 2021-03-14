@@ -17,7 +17,7 @@ export default {
     },
     fetch({store}){
         console.log('서버에서데이터안줘서안보엿던것...')
-        return store.dispatch("posts/loadPosts")
+         return store.dispatch('posts/loadPosts', { reset: true });
     },
     head(){
         return{

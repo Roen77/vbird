@@ -73,17 +73,16 @@ export const  mutations={
 }
 // 비동기처리는 actions에서한다
 export const actions={
-    async loadUser({ state, commit }) {
-        try {
-          const res = await this.$axios.get('/user', {
-            withCredentials: true,
-          });
-          commit('setMe', res.data);
-        //   console.log('개샛기들',res.data)
-        } catch (err) {
-          console.error(err);
-        }
-      },
+  async loadUser({ state, commit }) {
+    try {
+      const res = await this.$axios.get('/user', {
+        withCredentials: true,
+      });
+      commit('setMe', res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  },
     signUp({ commit, state }, payload) {
         this.$axios.post('/user', {
           email: payload.email,
