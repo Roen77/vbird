@@ -45,23 +45,21 @@ export const  mutations={
         state.me.Followings.splice(index,1);
         // state.followingList= state.followingList.filter(user=>user.id !== payload.id);
     },
-    loadFollowings(state){
-        const diff=totalFollowings -state.followingList.length;
-        const fakeUsers=Array(diff>limit?limit:diff).fill().map(v=>({
-            id:Math.random().toString(),
-            nickname:String(Math.ceil(Math.random()*1000))
-        }));
-        state.followingList=state.followingList.concat(fakeUsers);
-        state.hasMoreFollowing=fakeUsers.length === limit;
+    loadFollowings(state, payload) {
+      if (payload.offset === 0) {
+        state.followingList = payload.data;
+      } else {
+        state.followingList = state.followingList.concat(payload.data);
+      }
+      state.hasMoreFollowing = payload.data.length === limit;
     },
-    loadFollowers(state){
-        const diff=totalFollowers -state.followerList.length;
-        const fakeUsers=Array(diff>limit?limit:diff).fill().map(v=>({
-            id:Math.random().toString(),
-            nickname:String(Math.ceil(Math.random()*1000))
-        }));
-        state.followerList=state.followerList.concat(fakeUsers);
-        state.hasMoreFollower=fakeUsers.length === limit;
+    loadFollowers(state, payload) {
+      if (payload.offset === 0) {
+        state.followerList = payload.data;
+      } else {
+        state.followerList = state.followerList.concat(payload.data);
+      }
+      state.hasMoreFollower = payload.data.length === limit;
     },
     following(state,payload){
         state.me.Followings.push({id:payload.userId})
@@ -153,16 +151,47 @@ export const actions={
     //    const index=state.followingList.findIndex(v=>v.id === payload.id)
     //    state.followerList.splice(index,1)
     },
-    loadFollowers({commit,state}){
-        if(state.hasMoreFollower){
-            commit("loadFollowers")
-        }
+    loadFollowers({ commit, state }, payload) {
+      if (!(payload && payload.offset === 0) && !state.hasMoreFollower) {
+        return;
+      }
+      let offset = state.followerList.length;
+      if (payload && payload.offset === 0) {
+        offset = 0;
+      }
+      return this.$axios.get(`/user/${state.me.id}/followers?limit=3&offset=${offset}`, {
+        withCredentials: true,
+      })
+        .then((res) => {
+          commit('loadFollowers', {
+            data: res.data,
+            offset,
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
-    loadFollowings({commit,state}){
-        if(state.hasMoreFollowing){
-            commit("loadFollowings")
-        }
-
+    loadFollowings({ commit, state }, payload) {
+      if (!(payload && payload.offset === 0) && !state.hasMoreFollowing) {
+        return;
+      }
+      let offset = state.followingList.length;
+      if (payload && payload.offset === 0) {
+        offset = 0;
+      }
+      return this.$axios.get(`/user/${state.me.id}/followings?limit=3&offset=${offset}`, {
+        withCredentials: true,
+      })
+        .then((res) => {
+          commit('loadFollowings', {
+            data: res.data,
+            offset,
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     follow({ commit }, payload) {
         this.$axios.post(`/user/${payload.userId}/follow`, {}, {
