@@ -65,18 +65,19 @@ export const  mutations={
 }
 // 비동기처리는 actions에서한다
 export const actions={
-    loadUser({commit}){
-        this.$axios.get('http://localhost:4000/user',{
-            
-        },{
+    async loadUser({ state, commit }) {
+        try {
+          const res = await this.$axios.get('/user', {
             withCredentials: true,
-          })
-          .then((res)=>{
-            commit("setMe",res.data)
-          })
-    },
+          });
+          commit('setMe', res.data);
+        //   console.log('개샛기들',res.data)
+        } catch (err) {
+          console.error(err);
+        }
+      },
     signUp({ commit, state }, payload) {
-        this.$axios.post('http://localhost:4000/user', {
+        this.$axios.post('/user', {
           email: payload.email,
           nickname: payload.nickname,
           password: payload.password,
@@ -92,7 +93,7 @@ export const actions={
           });
       },
     login({commit},payload){
-        this.$axios.post('http://localhost:4000/user/login', {
+        this.$axios.post('/user/login', {
             email: payload.email,
             password: payload.password,
           }, {
@@ -105,7 +106,7 @@ export const actions={
           })
     },
     logout({commit},payload){
-        this.$axios.post('http://localhost:4000/user/logout',{},{
+        this.$axios.post('/user/logout',{},{
             withCredentials: true,
           })
         .then((data)=>{

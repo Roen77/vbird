@@ -47,10 +47,12 @@ export default {
           nicknameRules:[v=>!!v || "닉네임을 입력하세요"]
       }
   },
-  fetch({store}){
-    store.dispatch('users/loadFollowers')
-    store.dispatch('users/loadFollowings')
-  },
+    fetch({ store }) {
+      return Promise.all([
+        store.dispatch('users/loadFollowings'),
+        store.dispatch('users/loadFollowers'),
+      ]);
+    },
       computed:{
         followingLlist(){
             return this.$store.state.users.followingList

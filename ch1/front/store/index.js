@@ -1,11 +1,17 @@
+// export const strict = false
+
 export const state=()=>({
-    hello:'hi'
+   
 })
 
 
 export const  mutaions={
-    bye(state){
-        state.name='hello hi~'
-    }
-}
+
+};
+
+export const actions = {
+    nuxtServerInit({ commit, dispatch, state }, { req }) {
+      return dispatch('users/loadUser');
+    },
+  };
 

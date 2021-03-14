@@ -15,8 +15,9 @@ export default {
         PostCard,
         PostForm
     },
-        fetch({store}){
-        store.dispatch('posts/loadPosts')
+    fetch({store}){
+        console.log('서버에서데이터안줘서안보엿던것...')
+        return store.dispatch("posts/loadPosts")
     },
     head(){
         return{
@@ -34,6 +35,10 @@ export default {
             return this.$store.state.posts.hasMorePost
         }
     },
+
+    // created(){
+    //      this.$store.dispatch('posts/loadPosts')
+    // },
     //beforemount같은느낌인가 created에하는듯 이거찾아보니 nuxt꺼인듯??
     mounted(){
         window.addEventListener("scroll",this.onScroll)

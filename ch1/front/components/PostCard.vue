@@ -1,7 +1,7 @@
 <template>
   <div style="margin-bottom:20px">
     <v-card>
-      <v-img />
+      <post-images :images="post.Images || []"></post-images>
       <v-card-title>
         <h3>
           <nuxt-link :to="`/user/${post.id}`">
@@ -18,11 +18,11 @@
       </v-card-text>
       <v-card-text>
         <v-card-actions>
-          <v-btn text color="orange">
+          <v-btn text color="orange" @click="onRetweet">
             <v-icon>mdi-twitter-retweet</v-icon>
           </v-btn>
-          <v-btn text color="orange">
-            <v-icon>mdi-heart-outline</v-icon>
+          <v-btn text color="orange" @click="onClickHeart">
+            <v-icon>{{ heartIcon }}</v-icon>
           </v-btn>
           <v-btn text color="orange" @click="onToggleComment">
             <v-icon>mdi-comment-outline</v-icon>
@@ -66,8 +66,9 @@
 
 <script>
 import CommentForm from './CommentForm.vue'
+import PostImages from './PostImages.vue'
 export default {
-  components: { CommentForm },
+  components: { CommentForm, PostImages },
     props:{
         post:{
             type:Object,
@@ -78,6 +79,18 @@ export default {
         return {
             commentOpened: false
         }
+    },
+    computed:{
+      me() {
+        return this.$store.state.users.me;
+      },
+      liked() {
+        const me = this.$store.state.users.me;
+        return !!(this.post.Likers || []).find(v => v.id === (me && me.id));
+      },
+      heartIcon() {
+        return this.liked ? 'mdi-heart' : 'mdi-heart-outline';
+      },
     },
     methods: {
         onRemovePost() {
@@ -95,7 +108,28 @@ export default {
         },
         onEditPost(){
             console.log('edit')
+        },
+      onRetweet() {
+        if (!this.me) {
+          return alert('로그인이 필요합니다.');
         }
+        this.$store.dispatch('posts/retweet', {
+          postId: this.post.id,
+        });
+      },
+      onClickHeart() {
+        if (!this.me) {
+          return alert('로그인이 필요합니다.');
+        }
+        if (this.liked) {
+          return this.$store.dispatch('posts/unlikePost', {
+            postId: this.post.id,
+          });
+        }
+        return this.$store.dispatch('posts/likePost', {
+          postId: this.post.id,
+        });
+      },
     },
 
 }

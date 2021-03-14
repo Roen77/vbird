@@ -15,9 +15,6 @@ export default {
         PostCard,
         // PostForm
     },
-        fetch({store}){
-        store.dispatch('posts/loadPosts')
-    },
     head(){
         return{
             title:'메인페이지'

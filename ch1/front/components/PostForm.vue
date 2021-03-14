@@ -15,15 +15,16 @@
       <v-btn type="button" @click="onClickImageUpload">
         이미지 업로드
       </v-btn>
-      <div>
-        <div v-for="(p,i) in imagePaths" :key="p" style="display:inline-block">
-          <img :src="`http://localhost:4000/${p}`" :alt="p" style="width:200px">
+      <div style="display:flex;  flex-wrap:no-wrap;">
+        <div v-for="(p,i) in imagePaths" :key="p" style="flex:1;">
+          <img :src="`http://localhost:4000/${p}`" :alt="p" style="width:100%;box-sizing:border-box; padding:5px;">
           <div>
             <button type="button" @click="onReomveImage(i)">
               제거
             </button>
           </div>
         </div>
+        <!-- images -->
       </div>
     </v-container>
   </v-card>

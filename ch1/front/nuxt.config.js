@@ -11,9 +11,9 @@ module.exports={
       vuetify: {
         /* module options */
       },
-      // axios: {
-      //   browserBaseURL: 'http://localhost:3080',
-      //   baseURL: 'http://localhost:3080',
-      //   https: false,
-      // },
+      axios: {
+        browserBaseURL: 'http://localhost:4000',
+        baseURL: 'http://localhost:4000',
+        https: false,
+      },
 }

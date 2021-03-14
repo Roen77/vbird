@@ -6,12 +6,12 @@ const {isNotLoggedIn,isLoggedIn} =require('./middlewares')
 
 const router = express.Router();
 
-router.get('/',isLoggedIn,async(req,res,next)=>{
+
+
+router.get('/', isLoggedIn, async (req, res, next) => {
     const user = req.user;
-    //이러면 패스워드가들어잇다..r그래서 passport에서 비밀번호안받아오게해줌
-
-})
-
+    res.json(user);
+  });
 
 router.post('/',isNotLoggedIn,async (req,res,next)=>{
     try {
@@ -110,13 +110,21 @@ router.use('/login',isNotLoggedIn,(req,res,next)=>{
     })(req,res,next);
 });
 
-router.post('/logout',isLoggedIn,(req,res)=>{ //실제주소는 /user/logout
-    if(req.isAuthenticated()){
-        req.logout(); //이건필수
-        req.session.destroy();
-        //세션없에는거 세션없애는건선택사항이다
-        return res.status(200).send('로그아웃 되었습니다.')
+// router.post('/logout',isLoggedIn,(req,res)=>{ //실제주소는 /user/logout
+//     if(req.isAuthenticated()){
+//         req.logout(); //이건필수
+//         req.session.destroy();
+//         //세션없에는거 세션없애는건선택사항이다
+//         return res.status(200).send('로그아웃 되었습니다.')
+//     }
+// })
+
+router.post('/logout', isLoggedIn, (req, res) => { // 실제 주소는 /user/logout
+    if (req.isAuthenticated()) {
+      req.logout();
+      req.session.destroy();  // 선택사항
+      return res.status(200).send('로그아웃 되었습니다.');
     }
-})
+  });
 
 module.exports=router;
