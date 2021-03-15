@@ -7,8 +7,8 @@
     "dev": "nuxt",
     "lint": "eslint **/*",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"nuxt build",
-    "start":"nuxt start"
+    "build": "nuxt build",
+    "start": "cross-env PORT=80 NODE_ENV=production node server"
   },
   "author": "roen",
   "license": "ISC",
@@ -17,6 +17,8 @@
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/vuetify": "^1.11.3",
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.1",
     "lodash.throttle": "^4.1.1",
     "nuxt": "^2.15.3",
     "vue": "^2.6.12",
