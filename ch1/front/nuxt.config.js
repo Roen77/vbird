@@ -20,7 +20,7 @@ module.exports={
         baseURL: 'http://localhost:4000',
         https: false,
       },
-      // server:{
-      //   port:3081,
-      // }
+      server:{
+        port:process.env.PORT || 3080,
+      }
 }

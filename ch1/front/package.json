@@ -12,11 +12,6 @@
   },
   "author": "roen",
   "license": "ISC",
-  "config": {
-    "nuxt": {
-      "port": "3080"
-    }
-  },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/moment": "^1.6.1",
