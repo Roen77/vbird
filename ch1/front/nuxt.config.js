@@ -6,8 +6,12 @@ module.exports={
         '@nuxtjs/axios'
     ],
     buildModules: [
-        '@nuxtjs/vuetify'
+        '@nuxtjs/vuetify',
+        '@nuxtjs/moment'
       ],
+      moment:{
+        locales:['ko']
+      },
       vuetify: {
         /* module options */
       },

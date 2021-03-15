@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nuxt",
     "lint": "eslint **/*",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"nuxt build",
+    "start":"nuxt start"
   },
   "author": "roen",
   "license": "ISC",
@@ -17,6 +19,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
+    "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/vuetify": "^1.11.3",
     "axios": "^0.21.1",
     "lodash.throttle": "^4.1.1",
