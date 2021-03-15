@@ -63,6 +63,11 @@ export default {
             return this.$store.state.users.me
         }
     },
+    watch:{
+      me:function(){
+        console.log('와치',this.$store.state.users.me)
+      }
+    },
     methods: {
         onSubmitForm() {
             if(this.$refs.form.validate()){

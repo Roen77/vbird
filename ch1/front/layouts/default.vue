@@ -63,5 +63,5 @@ export default {
 
 <style scoped>
 .v-application a{color:#fff;}
-.logo{text-align: none;}
+.logo{text-decoration: none;;}
 </style>
