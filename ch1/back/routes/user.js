@@ -110,7 +110,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         }
         const fullUser = await db.User.findOne({
           where: { id: user.id },
-          attributes: ['id', ' userId', 'nickname'],
+          attributes: ['id', 'userId', 'nickname'],
           include: [{
             model: db.Post,
             attributes: ['id'],
