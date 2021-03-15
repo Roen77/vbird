@@ -3,7 +3,7 @@
     <nav>
       <v-toolbar dark color="primary">
         <v-toolbar-title>
-          <nuxt-link to="/">
+          <nuxt-link to="/" class="logo">
             NodeBird
           </nuxt-link>
         </v-toolbar-title>
@@ -63,4 +63,5 @@ export default {
 
 <style scoped>
 .v-application a{color:#fff;}
+.logo{text-align: none;}
 </style>
