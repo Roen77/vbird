@@ -99,7 +99,7 @@ export const actions={
   },
     signUp({ commit, state }, payload) {
         this.$axios.post('/user', {
-          email: payload.email,
+          userId: payload.userId,
           nickname: payload.nickname,
           password: payload.password,
         }, {
@@ -115,7 +115,7 @@ export const actions={
       },
       login({ commit }, payload) {
         this.$axios.post('/user/login', {
-          email: payload.email,
+          userId: payload.userId,
           password: payload.password,
         }, {
           withCredentials: true,

@@ -6,7 +6,7 @@
           <v-subheader>회원가입</v-subheader>
           <!--  v-model="valid"  이건 뷰티파이에만있는것 -->
           <v-form ref="form" v-model="valid" @submit.prevent="onSubmitForm">
-            <v-text-field v-model="email" label="이메일" type="email" required :rules="emailRules" />
+            <v-text-field v-model="userId" label="이메일" type="email" required :rules="userIdRules" />
             <v-text-field v-model="password" label="비밀번호" type="password" required :rules="passwordRules" />
             <v-text-field v-model="passwordCheck" label="비밀번호 확인" type="password" required :rules="passwordChackRules" />
             <v-text-field v-model="nickname" label="닉네임" type="nickname" required :rules="nicknameRules" />
@@ -34,12 +34,12 @@ export default {
             valid: false,
             // 여기서 valid는 rules에 따라 바뀌고 이건 뷰티파이에있는거임
             //rules가 모두 참인경우에만 valid가 참으로바뀐다
-            email:'',
+           userId:'',
             password:'',
             passwordCheck:'',
             terms:false,
             nickname:'',
-            emailRules:[
+            userIdRules:[
                 v=> !!v || '이메일은 필수입니다',
                 v=> /.+@.+/.test(v) || '이메일이 유효하지 않습니다'
             ],
@@ -77,7 +77,7 @@ export default {
              if (this.$refs.form.validate()) {
           this.$store.dispatch('users/signUp', {
             nickname: this.nickname,
-            email: this.email,
+            userId: this.userId,
             password: this.password,
                }).then(()=>{
                  this.$router.push({path:'/'})
